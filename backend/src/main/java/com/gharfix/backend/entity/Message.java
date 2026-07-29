@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "messages")
 @Data
@@ -25,9 +28,10 @@ public class Message {
     @JoinColumn(name = "receiver_id", nullable = false)
     private User receiver;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "booking_id")
-    private Booking booking;
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "booking_id")
+@JsonIgnore
+private Booking booking;
 
     @Column(columnDefinition = "TEXT")
     private String content;
