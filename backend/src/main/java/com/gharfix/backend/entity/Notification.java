@@ -30,8 +30,9 @@ public class Notification {
 
     private Long referenceId; // bookingId or messageId
 
-    @Builder.Default
-    private boolean read = false;
+ @Builder.Default
+@Column(name = "is_read")
+private boolean read = false;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
