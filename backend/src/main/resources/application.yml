@@ -1,6 +1,9 @@
 spring:
   profiles:
-    active: dev
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  jackson:
+    time-zone: UTC
 
   jpa:
     hibernate:
@@ -8,20 +11,20 @@ spring:
     show-sql: false
     open-in-view: false
 
-  jackson:
-    time-zone: UTC
-
 server:
   port: ${PORT:8080}
 
 jwt:
   secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
-  expiration: 86400000  # 24 hours in ms # 24 hours in ms
+  expiration: 86400000
 
 logging:
   level:
     com.gharfix: DEBUG
 
+# =========================
+# DEV PROFILE (H2)
+# =========================
 ---
 spring:
   config:
@@ -44,23 +47,30 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+# =========================
+# MYSQL PROFILE (AIVEN)
+# =========================
 ---
 spring:
   config:
     activate:
       on-profile: mysql
 
-datasource:
-    url: ${DB_URL:jdbc:mysql://localhost:3306/gharfixdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+  datasource:
+    url: ${DB_URL}
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: ${DB_USERNAME:root}
-    password: ${DB_PASSWORD:password}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
-jpa:
+  jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
+    show-sql: false
 
+# =========================
+# PROD PROFILE
+# =========================
 ---
 spring:
   config:
@@ -68,13 +78,13 @@ spring:
       on-profile: prod
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/gharfixdb}
-    driver-class-name: org.postgresql.Driver
-    username: ${DB_USERNAME:postgres}
-    password: ${DB_PASSWORD:password}
+    url: ${DB_URL}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
     show-sql: false
