@@ -6,25 +6,22 @@ spring:
     time-zone: UTC
 
   jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: false
     open-in-view: false
 
 server:
   port: ${PORT:8080}
 
 jwt:
-  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
+  secret: ${JWT_SECRET}
   expiration: 86400000
 
 logging:
   level:
     com.gharfix: DEBUG
 
-# =========================
-# DEV PROFILE (H2)
-# =========================
+# ==========================================================
+# DEV PROFILE (H2 Database)
+# ==========================================================
 ---
 spring:
   config:
@@ -46,10 +43,11 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
+    show-sql: true
 
-# =========================
-# MYSQL PROFILE (AIVEN)
-# =========================
+# ==========================================================
+# MYSQL PROFILE (Aiven + Render)
+# ==========================================================
 ---
 spring:
   config:
@@ -58,9 +56,9 @@ spring:
 
   datasource:
     url: ${DB_URL}
-    driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -68,9 +66,9 @@ spring:
       ddl-auto: update
     show-sql: false
 
-# =========================
-# PROD PROFILE
-# =========================
+# ==========================================================
+# PRODUCTION PROFILE
+# ==========================================================
 ---
 spring:
   config:
@@ -79,9 +77,9 @@ spring:
 
   datasource:
     url: ${DB_URL}
-    driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
