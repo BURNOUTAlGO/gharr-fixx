@@ -32,8 +32,9 @@ public class Message {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Builder.Default
-    private boolean read = false;
+@Builder.Default
+@Column(name = "is_read")
+private boolean read = false;
 
     @Column(updatable = false)
     private LocalDateTime sentAt;
